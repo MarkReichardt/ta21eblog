@@ -10,7 +10,7 @@ spl_autoload_register(function($class){
 require __DIR__ . "/../routes.php";
 
 
-$router = new App\Router($_SERVER['REQUEST_URI']);
+$router = new App\Router($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
 $match = $router->match();
 if($match) {
     if(is_callable($match['action'])){
@@ -24,6 +24,7 @@ if($match) {
         throw new Exception('invalid router action');
     }
 } else {
+    http_response_code (404);
     echo 404;
 }
 //switch($_SERVER['REQUEST_URI']){
